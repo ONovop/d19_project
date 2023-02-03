@@ -41,10 +41,26 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'board',
+    'ckeditor',
+    'ckeditor_uploader',
     'django_filters',
     'django.contrib.sites',
     'django.contrib.flatpages',
+
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
 ]
+
+LOGIN_URL = '/accounts/login/'
+LOGIN_REDIRECT_URL = '/board'
+LOGOUT_REDIRECT_URL = '/board'
+
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_UNIQUE_EMAIL = True
+ACCOUNT_USERNAME_REQUIRED = True
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
+ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -73,6 +89,15 @@ TEMPLATES = [
             ],
         },
     },
+]
+
+AUTHENTICATION_BACKENDS = [
+
+    # Needed to login by username in Django admin, regardless of `allauth`
+    'django.contrib.auth.backends.ModelBackend',
+
+    # `allauth` specific authentication methods, such as login by e-mail
+    'allauth.account.auth_backends.AuthenticationBackend',
 ]
 
 WSGI_APPLICATION = 'announcements.wsgi.application'
@@ -130,6 +155,17 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-STATICFILES_DIRS = [
-    BASE_DIR / 'static'
-]
+#STATICFILES_DIRS = [
+#    BASE_DIR / 'static'
+#]
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+CKEDITOR_UPLOAD_PATH = "uploads/"
+CKEDITOR_REQUIRE_STAFF = False
+
+EMAIL_HOST = 'app.debugmail.io'
+EMAIL_PORT = 25
+EMAIL_HOST_USER = 'da3c709e-298c-4bc6-98b5-30bfc7892069'
+EMAIL_HOST_PASSWORD = '05f7ac2a-5d8a-4ffa-a230-5e311f10a1d0'
+#EMAIL_USE_SSL = True
+
+DEFAULT_FROM_EMAIL = 'da3c709e-298c-4bc6-98b5-30bfc7892069@debugmail.io'

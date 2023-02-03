@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.urls import reverse
+from ckeditor_uploader.fields import RichTextUploadingField
 
 class Announcement(models.Model):
     tank = 'TN'
@@ -27,8 +28,8 @@ class Announcement(models.Model):
     ]
     type = models.CharField(max_length=2, choices=POSITIONS, default=tank)
     title = models.CharField(max_length=100)
-    author = models.ForeignKey(User, on_delete=models.CASCADE)
-    text = models.TextField()
+    author = models.ForeignKey(User, blank=True, null=True, on_delete=models.CASCADE)
+    text = RichTextUploadingField()
     time_creating = models.DateTimeField(auto_now_add=True)
 
     def get_absolute_url(self):
@@ -43,9 +44,13 @@ class Response(models.Model):
         (accepted, 'Принят'),
         (rejected, 'Удален'),
     ]
-    announcement = models.ForeignKey(Announcement, on_delete=models.CASCADE)
-    responser = models.ForeignKey(User, on_delete=models.CASCADE)
+    announcement = models.ForeignKey(Announcement, blank=True, null=True, on_delete=models.CASCADE)
+    responser = models.ForeignKey(User, blank=True, null=True, on_delete=models.CASCADE)
     text = models.TextField()
     status = models.CharField(max_length=1, choices=POSITIONS, default=waiting)
     time_creating = models.DateTimeField(auto_now_add=True)
+
+    def get_absolute_url(self):
+        return reverse('resp_det', args=[str(self.id)])
+
 

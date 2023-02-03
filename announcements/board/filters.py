@@ -1,7 +1,7 @@
 import django_filters
 from django_filters import FilterSet
 from django import forms
-from .models import Announcement
+from .models import Announcement, Response
 
 class BoardFilter(FilterSet):
     title = django_filters.CharFilter(lookup_expr='icontains')
@@ -19,3 +19,13 @@ class BoardFilter(FilterSet):
             'text',
             'time_creating',
         ]
+
+class RespFilter(FilterSet):
+    class Meta:
+        model = Response
+        fields = {
+            'announcement__title': ['icontains'],
+            'announcement__type': ['icontains'],
+            'text' :['icontains'],
+            'time_creating': ['gt'],
+        }

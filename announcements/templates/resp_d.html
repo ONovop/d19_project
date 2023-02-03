@@ -1,0 +1,19 @@
+<!--  наследуемся от шаблона default.html, который мы создавали для flatpages -->
+{% extends 'default.html' %}
+
+
+<!-- Название у нас будет Product -->
+{% block title %}
+Информация об отклике
+{% endblock title %}
+
+<!-- В контенте на странице мы выводим сам товар, идентификатор которого был передан в url -->
+{% block content %}
+<h1>{{ resp.announcement.title }}</h1>
+Текст отклика {{ resp.text }}<br>
+Дата публикации {{ resp.time_creating|date:'d M Y' }}<br>
+Категория {{ resp.announcement.get_type_display }}<br>
+Статус {{ resp.get_status_display }}<br>
+{{ ann.text }}<br>
+
+{% endblock content %}

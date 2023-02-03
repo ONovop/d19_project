@@ -17,6 +17,9 @@ anns
        {# Добавим кнопку отправки данных формы #}
        <input type="submit" value="Найти" />
    </form>
+<button> <a href="{% url 'create' %}"> Создать новое </a></button>
+<button> <a href="{% url 'my_ann' %}"> Мои объявления </a></button>
+<button> <a href="{% url 'resp_my' %}"> Отклики </a></button>
 <!-- Выводим товары, только если они есть с помощью тега if -->
     {% if anns %}
         <table align="center">
@@ -29,8 +32,8 @@ anns
             </tr>
             {% for ann in anns %}
             <tr>
-                <td>{{ ann.title }}</td>
-                <td>{{ ann.type }}</td>
+                <td><a href="{% url 'detail' ann.pk %}">{{ ann.title }}</a></td>
+                <td>{{ ann.get_type_display }}</td>
                 <td>{{ ann.author }}</td>
                 <td>{{ ann.time_creating|date:'d M Y' }}</td>
                 <td>{{ ann.text|truncatewords:20 }}</td>

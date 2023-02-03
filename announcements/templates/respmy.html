@@ -1,0 +1,74 @@
+<!--  наследуемся от шаблона default.html, который мы создавали для flatpages -->
+{% extends 'default.html' %}
+{% load custom_tags %}
+
+<!-- Название у нас будет products -->
+{% block title %}
+resps
+{% endblock title %}
+
+<!-- В контенте на странице мы выводим все товары -->
+{% block content %}
+<h1>Отклики на мои объявления</h1>
+   {# Добавляем форму, которая объединяет набор полей, которые будут отправляться в запросе #}
+   <form action="" method="get">
+       {# Переменная, которую мы передали через контекст, может сгенерировать нам форму с полями #}
+       {{ filterset.form.as_p }}
+       {# Добавим кнопку отправки данных формы #}
+       <input type="submit" value="Найти" />
+   </form>
+<!-- Выводим товары, только если они есть с помощью тега if -->
+    {% if resps %}
+        <table align="center">
+            <tr>
+                <td>Текст</td>
+                <td>Время отклика</td>
+                <td>Заголовок объявления</td>
+                <td>Категория</td>
+                <td>Статус</td>>
+                <td></td>
+            </tr>
+            {% for resp in resps %}
+            {% if resp.announcement.author.id == user_id %}
+            <tr>
+                <td>{{ resp.text }}</td>
+                <td>{{ resp.time_creating|date:'d M Y' }}</td>
+                <td>{{ resp.announcement.title }}</td>
+                <td>{{ resp.announcement.get_type_display }}</td>
+                <td>{{ resp.get_status_display }}</td>
+                <td>{% if resp.status == 'W' %}
+                    <button> <a href="{% url 'accept' resp.pk %}"> Принять </a></button>
+                    <button> <a href="{% url 'reject' resp.pk %}"> Отклонить </a></button>
+                    {% endif %}</td>
+            </tr>
+            {% endif %}
+            {% endfor %}
+        </table>
+    {% else %}
+        <h2>Откликов нет!</h2>
+    {% endif %}
+<button> <a href="{% url 'board' %}"> Доска объявлений </a></button><br>
+  {# Добавляем пагинацию на страницу #}
+
+   {# Информация о предыдущих страницах #}
+   {% if page_obj.has_previous %}
+       <a href="?{% url_replace page=1 %}">1</a>
+       {% if page_obj.previous_page_number != 1 %}
+           ...
+           <a href="?{% url_replace page=page_obj.previous_page_number %}">{{ page_obj.previous_page_number }}</a>
+       {% endif %}
+   {% endif %}
+
+   {# Информация о текущей странице #}
+   {{ page_obj.number }}
+
+   {# Информация о следующих страницах #}
+   {% if page_obj.has_next %}
+       <a href="?{% url_replace page=page_obj.next_page_number %}">{{ page_obj.next_page_number }}</a>
+       {% if paginator.num_pages != page_obj.next_page_number %}
+           ...
+           <a href="?{% url_replace page=page_obj.paginator.num_pages %}">{{ page_obj.paginator.num_pages }}</a>
+       {% endif %}
+   {% endif %}
+
+{% endblock content %}

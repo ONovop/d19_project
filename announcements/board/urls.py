@@ -1,6 +1,7 @@
 from django.urls import path
 # Импортируем созданное нами представление
-from .views import (BoardFiltered, BoardMy, AnnDetail, AnnCreate)
+from .views import (BoardFiltered, BoardMy, AnnDetail, AnnCreate, AnnUpdate, RespCreate, RespDetail, RespMy,
+                    resp_acc, resp_rej, mass_mail)
 
 urlpatterns = [
    # path — означает путь.
@@ -13,10 +14,11 @@ urlpatterns = [
    path('my/', BoardMy.as_view(), name='my_ann'),
    path('<int:pk>/', AnnDetail.as_view(), name='detail'),
    path('create/', AnnCreate.as_view(), name='create'),
-#   path('board/<int:pk>/update', NewsUpdate.as_view(), name='update'),
-#   path('response', NewsDelete.as_view(), name='response'),
-#   path('response/my', ArticleCreate.as_view(), name='my_resp'),
-#   path('user/', IndexView.as_view(), name='UserPage'),
-#   path('user/upgrade', upgrade_me, name='Upgrade'),
-#   path('user/subscribe/<int:pk>', subscribe_me, name='subscribe'),
+   path('<int:pk>/update', AnnUpdate.as_view(), name='update'),
+   path('<int:pk>/response', RespCreate.as_view(), name='response'),
+   path('response/<int:pk>', RespDetail.as_view(), name='resp_det'),
+   path('response/<int:pk>/acc', resp_acc, name='accept'),
+   path('response/<int:pk>/rej', resp_rej, name='reject'),
+   path('response/my', RespMy.as_view(), name='resp_my'),
+   path('massmail/', mass_mail, name='massmail'),
    ]

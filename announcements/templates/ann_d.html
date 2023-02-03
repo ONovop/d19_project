@@ -10,8 +10,10 @@ ann
 <!-- В контенте на странице мы выводим сам товар, идентификатор которого был передан в url -->
 {% block content %}
 <h1>{{ ann.title }}</h1>
+{{ form.media }}
 Дата публикации {{ ann.time_creating|date:'d M Y' }}<br>
-Категория {{ ann.type }}<br>
-{{ ann.text }}<br>
-
+Категория {{ ann.get_type_display }}<br>
+{{ ann.text|safe }}<br>
+{% if resp %}<button> <a href="{% url 'response' ann.pk %}"> Откликнуться </a></button><br>{% endif %}
+<button> <a href="{% url 'board' %}"> Доска объявлений </a></button>
 {% endblock content %}

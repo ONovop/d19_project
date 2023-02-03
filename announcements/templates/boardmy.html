@@ -31,7 +31,7 @@ anns
             {% if ann.author.id == user_id %}
             <tr>
                 <td>{{ ann.title }}</td>
-                <td>{{ ann.type }}</td>
+                <td>{{ ann.get_type_display }}</td>
                 <td>{{ ann.author }}</td>
                 <td>{{ ann.time_creating|date:'d M Y' }}</td>
                 <td>{{ ann.text|truncatewords:20 }}</td>
@@ -42,7 +42,7 @@ anns
     {% else %}
         <h2>Объявлений нет!</h2>
     {% endif %}
-
+<button> <a href="{% url 'board' %}"> Доска объявлений </a></button><br>
   {# Добавляем пагинацию на страницу #}
 
    {# Информация о предыдущих страницах #}
